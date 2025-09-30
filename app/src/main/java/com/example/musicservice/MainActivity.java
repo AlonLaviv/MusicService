@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 if (beenPressed){
                 Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                 stopService(serviceIntent);
+                    beenPressed = false;
+                    if(isOn){//Pause
+                        btnPause.setText("Pause");
+                        isOn = false;
+                        Toast.makeText(getApplicationContext(), "Music Paused.", Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(getApplicationContext(), "Music Stopped.", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getApplicationContext(), "You Must Start The Music If You Want To Pause.", Toast.LENGTH_SHORT).show();
