@@ -69,7 +69,9 @@ public class MusicService extends Service {
 
     public void pauseMusic() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {mediaPlayer.pause();}
-        else {mediaPlayer.start();}
+        else {
+            assert mediaPlayer != null;//android said so
+            mediaPlayer.start();}
     }
 
     @Override

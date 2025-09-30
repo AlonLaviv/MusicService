@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                 ContextCompat.startForegroundService(MainActivity.this, serviceIntent);
                 beenPressed = true;
+                if(isOn){//Pause
+                    btnPause.setText("Pause");
+                    isOn = false;
+                }
                 Toast.makeText(getApplicationContext(), "Music Started.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -77,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                     if(isOn){//Pause
                         btnPause.setText("Pause");
                         isOn = false;
-                        Toast.makeText(getApplicationContext(), "Music Paused.", Toast.LENGTH_SHORT).show();
                     }
                     Toast.makeText(getApplicationContext(), "Music Stopped.", Toast.LENGTH_SHORT).show();
                 }else{
