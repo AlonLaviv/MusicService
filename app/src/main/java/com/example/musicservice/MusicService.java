@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
-public class MusicActivity extends Service {
+public class MusicService extends Service {
 
     private static final String CHANNEL_ID = "AudioServiceChannel";
     private MediaPlayer mediaPlayer;
@@ -29,7 +29,6 @@ public class MusicActivity extends Service {
             pauseMusic();
             return START_NOT_STICKY;
         }
-        int songId = intent.getIntExtra("song_id", R.raw.final_countdown);
 
         createNotificationChannel();
 
@@ -41,7 +40,7 @@ public class MusicActivity extends Service {
 
         startForeground(1, notification);
 
-        mediaPlayer = MediaPlayer.create(this, songId);
+        mediaPlayer = MediaPlayer.create(this, intent.getIntExtra("song_id", R.raw.final_countdown));
         mediaPlayer.start();
 
         return START_NOT_STICKY;

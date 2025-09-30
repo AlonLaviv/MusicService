@@ -30,7 +30,7 @@
 
         <!-- Foreground service for media playback -->
         <service
-            android:name=".MusicActivity"
+            android:name=".MusicService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 

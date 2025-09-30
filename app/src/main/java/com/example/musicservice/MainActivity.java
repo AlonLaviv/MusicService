@@ -16,6 +16,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnPlay, btnStop,btnPause;
+    private Boolean isOn = false;
+    private Boolean beenPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
         btnPlay = findViewById(R.id.btnPlay);
         btnPause = findViewById(R.id.btnPause);
         btnStop = findViewById(R.id.btnStop);
-        final Boolean[] isOn = {false};
-        final Boolean[] beenPressed = {false};
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent serviceIntent = new Intent(MainActivity.this, MusicActivity.class);
+                Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                 ContextCompat.startForegroundService(MainActivity.this, serviceIntent);
-                beenPressed[0] = true;
+                beenPressed = true;
                 Toast.makeText(getApplicationContext(), "Music Started.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -47,18 +47,18 @@ public class MainActivity extends AppCompatActivity {
         btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (beenPressed[0]){
-                    Intent serviceIntent = new Intent(MainActivity.this, MusicActivity.class);
+                if (beenPressed){
+                    Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                     serviceIntent.setAction("Pause");
                     ContextCompat.startForegroundService(MainActivity.this, serviceIntent);
-                    if(isOn[0]){//Unpause
+                    if(isOn){//Unpause
                         btnPause.setText("Pause");
-                        isOn[0] = false;
+                        isOn = false;
                         Toast.makeText(getApplicationContext(), "Music Unpaused.", Toast.LENGTH_SHORT).show();
                     }else {//Pause
                         btnPause.setText("Unpause");
+                        isOn = true;
                         Toast.makeText(getApplicationContext(), "Music Paused.", Toast.LENGTH_SHORT).show();
-                        isOn[0] = true;
                     }
                 }else {
                     Toast.makeText(getApplicationContext(), "You Must Start The Music If You Want To Pause.", Toast.LENGTH_SHORT).show();
@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (beenPressed[0]){
-                Intent serviceIntent = new Intent(MainActivity.this, MusicActivity.class);
+                if (beenPressed){
+                Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                 stopService(serviceIntent);
                     Toast.makeText(getApplicationContext(), "Music Stopped.", Toast.LENGTH_SHORT).show();
                 }else{
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent serviceIntent = new Intent(MainActivity.this, MusicActivity.class);
+        Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
         stopService(serviceIntent);
     }
 }
